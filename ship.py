@@ -1,1 +1,4 @@
-print('hello ship 2')
+class Ship:
+	"""make ship"""
+	def __init__(self):
+		

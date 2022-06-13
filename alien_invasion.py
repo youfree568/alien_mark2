@@ -19,23 +19,26 @@ class AlienInvasion:
 		# напис з назвою на верху вікна
 		pygame.display.set_caption('Alien Invasion')
 		self.ship = Ship(self)
-		# додай зображення корабля
-		# визнач рект екрану та корабля
-		# зпозиціоную корабель на екрані
+		
 	
 	def run_game(self):
 		"""start game"""
 		while True:
-			for event in pygame.event.get():
+			self._check_events()
+			self._update_screen()
+
+	def _check_events(self):
+		for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					sys.exit()
 				elif event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_q:
 						sys.exit()
-			self.screen.fill(self.settings.bg_color)
-			self.ship.blitme()
-			pygame.display.flip()
 
+	def _update_screen(self):
+		self.screen.fill(self.settings.bg_color)
+		self.ship.blitme()
+		pygame.display.flip()
 
 if __name__ == '__main__':
 	# create copy of the game and start

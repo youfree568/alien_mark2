@@ -4,7 +4,7 @@ class Ship:
 	"""make ship"""
 	def __init__(self, game):
 		self.screen = game.screen
-		self.screen_rect = game6t.screen.get_rect()
+		self.screen_rect = game.screen.get_rect()
 
 		self.image = pygame.image.load('images/ship.bmp')
 		self.rect = self.image.get_rect()

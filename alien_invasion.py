@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
 	"""загальний клас, що керує ресурсами та поведінкою гри"""
@@ -17,10 +18,11 @@ class AlienInvasion:
 			self.settings.screen_height))
 		# напис з назвою на верху вікна
 		pygame.display.set_caption('Alien Invasion')
+		self.ship = Ship(self)
 		# додай зображення корабля
 		# визнач рект екрану та корабля
 		# зпозиціоную корабель на екрані
-		
+	
 	def run_game(self):
 		"""start game"""
 		while True:
@@ -31,6 +33,7 @@ class AlienInvasion:
 					if event.key == pygame.K_q:
 						sys.exit()
 			self.screen.fill(self.settings.bg_color)
+			self.ship.blitme()
 			pygame.display.flip()
 
 

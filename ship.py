@@ -12,6 +12,6 @@ class Ship:
 
 	def blitme(self):
 		self.screen.blit(self.image, self.rect)
-		# додай зображення корабля
-		# визнач рект екрану та корабля
-		# зпозиціоную корабель на екрані
+	
+	def move(self):
+		self.rect.x += 1

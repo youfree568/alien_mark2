@@ -24,12 +24,16 @@ class Main:
 		self.screen = pygame.display.set_mode((600, 400))
 		pygame.display.set_caption('home_work_12-1')
 		self.bg_color = (0, 0, 250)
+		self.image = pygame.image.load('images/super_mario.png')
+		self.rect = self.image.get_rect()
+
 	def run(self):
 		while True:
 			for e in pygame.event.get():
 				if e.type == pygame.QUIT:
 					sys.exit()
 			self.screen.fill(self.bg_color)
+			self.screen.blit(self.image, self.rect)
 			pygame.display.flip()
 # 
 # запускає через виклик класу і функції

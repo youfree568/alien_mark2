@@ -27,6 +27,8 @@ class Main:
 		self.image = pygame.image.load('images/super_mario.png')
 		self.rect = self.image.get_rect()
 
+ #test commit
+  
 	def run(self):
 		while True:
 			for e in pygame.event.get():

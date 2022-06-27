@@ -14,8 +14,12 @@ class AlienInvasion:
 
 		self.settings = Settings()
 		# set window
-		self.screen = pygame.display.set_mode((self.settings.screen_width, 
-			self.settings.screen_height))
+		# self.screen = pygame.display.set_mode((self.settings.screen_width, 
+			# self.settings.screen_height))
+		# make full screen
+		self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+		self.settings.scree_width = self.screen.get_rect().width
+		self.settings.screen_height = self.screen.get_rect().height
 		# напис з назвою на верху вікна
 		pygame.display.set_caption('Alien Invasion')
 		self.ship = Ship(self)
@@ -33,18 +37,25 @@ class AlienInvasion:
 			if e.type == pygame.QUIT:
 				sys.exit()
 			elif e.type == pygame.KEYDOWN:
-				if e.key == pygame.K_RIGHT:
-					self.ship.moving_right = True
-				elif e.key == pygame.K_LEFT:
-					self.ship.moving_left = True
-				elif e.key == pygame.K_q:
-					sys.exit()
-
+				self._check_events_keydown(e)
 			elif e.type == pygame.KEYUP:
-				if e.key == pygame.K_RIGHT:
-					self.ship.moving_right = False
-				elif e.key == pygame.K_LEFT:
-					self.ship.moving_left = False
+				self._check_events_keyup(e)
+
+	def _check_events_keydown(self, e):
+		# реакція на натиснуту клавішу
+		if e.key == pygame.K_RIGHT:
+			self.ship.moving_right = True
+		elif e.key == pygame.K_LEFT:
+			self.ship.moving_left = True
+		elif e.key == pygame.K_q:
+			sys.exit()
+
+	def _check_events_keyup(self, e):
+		# реакція на ненатиснуту клавішу
+		if e.key == pygame.K_RIGHT:
+			self.ship.moving_right = False
+		elif e.key == pygame.K_LEFT:
+			self.ship.moving_left = False
 
 	def _update_screen(self):
 		self.screen.fill(self.settings.bg_color)

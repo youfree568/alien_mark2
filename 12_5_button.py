@@ -2,7 +2,7 @@ import pygame
 import sys
 
 class CheckKey:
-	"""here we check what button is press down and show it on the screen"""
+	"""here we check whitch button is pressed and show it on the screen"""
 	def __init__(self):
 		pygame.init()
 		self.screen = pygame.display.set_mode((600, 400))

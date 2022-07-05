@@ -4,6 +4,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
 	"""загальний клас, що керує ресурсами та поведінкою гри"""
@@ -23,13 +24,14 @@ class AlienInvasion:
 		# напис з назвою на верху вікна
 		pygame.display.set_caption('Alien Invasion')
 		self.ship = Ship(self)
-		self.x = float(self.ship.rect.x)
+		self.bullets = pygame.sprite.Group()
 
 	def run_game(self):
 		"""start game"""
 		while True:
 			self._check_events()
-			self.ship.update()	
+			self.ship.update()
+			self._update_bullets()
 			self._update_screen()
 
 	def _check_events(self):
@@ -47,6 +49,8 @@ class AlienInvasion:
 			self.ship.moving_right = True
 		elif e.key == pygame.K_LEFT:
 			self.ship.moving_left = True
+		elif e.key == pygame.K_SPACE:
+			self._fire_bullet()			
 		elif e.key == pygame.K_q:
 			sys.exit()
 
@@ -60,7 +64,33 @@ class AlienInvasion:
 	def _update_screen(self):
 		self.screen.fill(self.settings.bg_color)
 		self.ship.blitme()
+		self._show_bullets()
 		pygame.display.flip()
+
+	def _show_bullets(self):
+		# відображає по черзі випущені кулі
+		for bullet in self.bullets.sprites():
+			bullet.draw_bullet()
+
+	def _fire_bullet(self):
+		# додає кулі у список
+		if len(self.bullets) < self.settings.bullet_allowed:
+			new_bullet = Bullet(self)
+			self.bullets.add(new_bullet)
+
+	def _remove_bullet(self):
+		# видаляє кулі що досягнули верху екрану
+		for bullet in self.bullets.copy():
+			if bullet.rect.bottom <=0:
+				self.bullets.remove(bullet)
+		
+
+	def _update_bullets(self):
+		"""оновити позицію кулі і видалити стару"""
+		# оновити позиції куль
+		self.bullets.update()
+		# видалити старукую
+		self._remove_bullet()
 
 if __name__ == '__main__':
 	# create copy of the game and start

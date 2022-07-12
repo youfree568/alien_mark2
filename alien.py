@@ -1,29 +1,17 @@
-import sys
-
 import pygame
+from pygame.sprite import Sprite
 
-class AlienInvasion:
-	"""загальний клас, що керує ресурсами та поведінкою гри"""
-	def __init__(self):
-		""" Ініціалізувати гру, створити ресурси гри"""
-		# initialization pygame
-		pygame.init()
-		# set window
-		self.screen = pygame.display.set_mode((600, 400))
-		# напис з назвою на верху вікна
-		pygame.display.set_caption('Alien Invasion')
-
-	def run_game(self):
-		"""start game"""
-		while True:
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					sys.exit()
-
-			pygame.display.flip()
-
-
-if __name__ == '__main__':
-	# create copy of the game and start
-	ai = AlienInvasion()
-	ai.run_game()
+class Alien(Sprite):
+	"""клас що створює прибульця"""
+	def __init__(self, ai):
+		super().__init__()
+		self.screen = ai.screen
+		self.settings = ai.settings
+		# load image
+		self.image = pygame.image.load('images/alien.bmp')
+		self.rect = self.image.get_rect()
+		# start each new alien on the top left of the screen
+		self.rect.x = self.rect.width
+		self.rect.y = self.rect.height
+		# Store the alien's exact horizontal position
+		self.x = float(self.rect.x)

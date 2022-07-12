@@ -38,6 +38,11 @@ class Shut_right:
 			# малюємо кулю
 			for bullet in self.bullets.sprites():
 				bullet.draw_bullet()
+			# видалити кулі що дойшли верху екрану
+			for bullet in self.bullets.copy():
+				if bullet.rect.left > self.screen_rect.right:
+					self.bullets.remove(bullet)
+			print(len(self.bullets))
 			# відображати екран
 			pygame.display.flip()
 
@@ -76,8 +81,9 @@ class Shut_right:
 			self.rect.y += 1
 
 	def _fire_bullet(self):
-		new_bullet = Bullet(self)
-		self.bullets.add(new_bullet)
+		if len(self.bullets) < 3:
+			new_bullet = Bullet(self)
+			self.bullets.add(new_bullet)
 
 
 if __name__=='__main__':

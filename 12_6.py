@@ -1,5 +1,6 @@
 import pygame
 import sys
+from rightbullet import Bullet
 
 class Shut_right:
 	def __init__(self):
@@ -17,6 +18,11 @@ class Shut_right:
 		self.rect = self.ship.get_rect()
 		# положення корабля
 		self.rect.midleft = self.screen_rect.midleft
+		# move ship UP
+		self.move_ship_up = False
+		self.move_ship_down = False
+		self.bullets = pygame.sprite.Group()
+
 
 	def run(self):
 		# запуск відображення програми
@@ -26,6 +32,12 @@ class Shut_right:
 			self.screen.fill(self.bg_color)
 			# відображаємо корабель
 			self.screen.blit(self.ship, self.rect)
+			self.update_ship()
+			# оновлення кулі
+			self.bullets.update()
+			# малюємо кулю
+			for bullet in self.bullets.sprites():
+				bullet.draw_bullet()
 			# відображати екран
 			pygame.display.flip()
 
@@ -35,13 +47,38 @@ class Shut_right:
 			if event.type == pygame.QUIT:
 				sys.exit()
 			elif event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_UP:
-					self.rect.y -= 5
-				if event.key == pygame.K_DOWN:
-					self.rect.y += 5
-				# вихід з гри
-				if event.key == pygame.K_q:
-					sys.exit()
+				self._check_keydown(event)
+			elif event.type == pygame.KEYUP:
+				self._check_keyup(event)
+
+	def _check_keydown(self, event):
+		if event.key == pygame.K_UP:
+			self.move_ship_up = True
+		if event.key == pygame.K_DOWN:
+			self.move_ship_down = True
+		if event.key == pygame.K_SPACE:
+			# випускати кулю
+			self._fire_bullet()
+		# вихід з гри
+		if event.key == pygame.K_q:
+			sys.exit()
+
+	def _check_keyup(self, event):
+		if event.key == pygame.K_UP:
+			self.move_ship_up = False
+		if event.key == pygame.K_DOWN:
+			self.move_ship_down = False
+
+	def update_ship(self):
+		if self.move_ship_up and self.rect.top > 0:
+			self.rect.y -= 1
+		if self.move_ship_down and self.rect.bottom < self.screen_rect.bottom:
+			self.rect.y += 1
+
+	def _fire_bullet(self):
+		new_bullet = Bullet(self)
+		self.bullets.add(new_bullet)
+
 
 if __name__=='__main__':
 	Shut_right().run()

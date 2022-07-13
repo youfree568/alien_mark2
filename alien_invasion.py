@@ -20,14 +20,14 @@ class AlienInvasion:
 			# self.settings.screen_height))
 		# make full screen
 		self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-		self.settings.scree_width = self.screen.get_rect().width
+		self.settings.screen_width = self.screen.get_rect().width
 		self.settings.screen_height = self.screen.get_rect().height
 		# напис з назвою на верху вікна
 		pygame.display.set_caption('Alien Invasion')
 		self.ship = Ship(self)
 		self.bullets = pygame.sprite.Group()
 		self.aliens = pygame.sprite.Group()
-
+		
 		self._create_fleet()
 
 	def run_game(self):
@@ -99,9 +99,22 @@ class AlienInvasion:
 	def _create_fleet(self):
 		"""створення флоту прибульців"""
 		alien = Alien(self)
-		self.aliens.add(alien)
+		alien_width = alien.rect.width
+		available_space = self.settings.screen_width - (alien_width * 2)
+		number_alien_x = available_space // (alien_width * 2)
+		# create the first row of aliens
+		for alien_number in range(number_alien_x):
+			alien = Alien(self)
+			alien.x = alien_width + alien_width * 2 * alien_number
+			alien.rect.x = alien.x
+			self.aliens.add(alien)
 
 if __name__ == '__main__':
 	# create copy of the game and start
 	ai = AlienInvasion()
 	ai.run_game()
+
+
+
+# available_space = self.settings.screen_width - (alien_width * 2)
+# number_alien_x = available_space // (alien_width * 2)

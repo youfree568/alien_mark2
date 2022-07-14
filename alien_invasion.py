@@ -99,22 +99,30 @@ class AlienInvasion:
 	def _create_fleet(self):
 		"""створення флоту прибульців"""
 		alien = Alien(self)
-		alien_width = alien.rect.width
-		available_space = self.settings.screen_width - (alien_width * 2)
-		number_alien_x = available_space // (alien_width * 2)
-		# create the first row of aliens
-		for alien_number in range(number_alien_x):
-			alien = Alien(self)
-			alien.x = alien_width + alien_width * 2 * alien_number
-			alien.rect.x = alien.x
-			self.aliens.add(alien)
+		alien_width, alien_height = alien.rect.size
+		ship_height = self.ship.rect.height
+		# визначаємо кількість прибульців що поміститься в ряд на екрані
+		available_space_x = self.settings.screen_width - (alien_width * 2)
+		number_alien_x = available_space_x // (alien_width * 2)
+		# визначаємо кількість рядів рибульців
+		available_space_y = self.settings.screen_height - (alien_height * 3) - ship_height
+		number_rows = available_space_y // (alien_height * 2)
+		for row in range(number_rows):
+			# create the first row of aliens
+			for alien_number in range(number_alien_x):
+				self._create_alien(alien_number, row)
+
+	def _create_alien(self, alien_number, row):
+		"""create an alien and place it in a row"""
+		alien = Alien(self)
+		alien_width, alien_height = alien.rect.size
+		alien.x = alien_width + alien_width * 2 * alien_number
+		alien.rect.x = alien.x
+		alien.y = alien_height + alien_height * 2 * row
+		alien.rect.y = alien.y
+		self.aliens.add(alien)
 
 if __name__ == '__main__':
 	# create copy of the game and start
 	ai = AlienInvasion()
 	ai.run_game()
-
-
-
-# available_space = self.settings.screen_width - (alien_width * 2)
-# number_alien_x = available_space // (alien_width * 2)

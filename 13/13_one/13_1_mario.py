@@ -30,13 +30,13 @@ class Marios():
 				# перебираємо кількість в ряді
 				# задаємо параметри маріо, шир. вис. 
 				mario = Mario(self)
+				# рандомне значення
+				random_place = randint(-20, 20)
 				# позиція кожного маріо в ряді
-				
-				mario.x = mario_width + 2 * mario_width * mario_number
+				mario.x = mario_width + 2 * mario_width * mario_number + random_place
 				mario.rect.x = mario.x
-				# позиція ряду на екрані
-				
-				mario.y = mario_height + 2 * mario_height * row
+				# позиція ряду на екрані				
+				mario.y = mario_height + 2 * mario_height * row + random_place
 				mario.rect.y = mario.y
 				self.marios.add(mario)
 	

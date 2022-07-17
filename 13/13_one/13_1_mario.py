@@ -1,6 +1,7 @@
 import pygame
 import sys
 from mario import Mario
+from random import randint
 
 class Marios():
 	"""make a fleet of marios"""
@@ -15,17 +16,29 @@ class Marios():
 
 		# add mario on screen
 		mario = Mario(self)
-		mario_width = mario.rect.width
+		mario_width, mario_height = mario.rect.size
+		# кількість в ряді
 		available_space_x = self.screen_rect.width - (2 * mario_width)
 		number_marios_x = available_space_x // (2 * mario_width)
+		# кількість рядів
+		available_space_y = self.screen_rect.height - mario_height
+		number_rows = available_space_y // (2 * mario_height)
 		# перебираємо і виводимо на екран маріо
-		for mario_number in range(number_marios_x):
-			mario = Mario(self)
-			mario.x = mario_width + 2 * mario_width * mario_number
-			mario.rect.x = mario.x
-			self.marios.add(mario)
-
-			print(mario_number)
+		for row in range(number_rows):
+			# пребираємо який ряд
+			for mario_number in range(number_marios_x):
+				# перебираємо кількість в ряді
+				# задаємо параметри маріо, шир. вис. 
+				mario = Mario(self)
+				# позиція кожного маріо в ряді
+				
+				mario.x = mario_width + 2 * mario_width * mario_number
+				mario.rect.x = mario.x
+				# позиція ряду на екрані
+				
+				mario.y = mario_height + 2 * mario_height * row
+				mario.rect.y = mario.y
+				self.marios.add(mario)
 	
 
 	def run_game(self):

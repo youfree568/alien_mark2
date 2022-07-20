@@ -36,6 +36,7 @@ class AlienInvasion:
 			self._check_events()
 			self.ship.update()
 			self._update_bullets()
+			
 			self._update_screen()
 
 	def _check_events(self):
@@ -121,6 +122,7 @@ class AlienInvasion:
 		alien.y = alien_height + alien_height * 2 * row
 		alien.rect.y = alien.y
 		self.aliens.add(alien)
+
 
 if __name__ == '__main__':
 	# create copy of the game and start

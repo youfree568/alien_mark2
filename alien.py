@@ -16,3 +16,14 @@ class Alien(Sprite):
 		# Store the alien's exact horizontal position
 		self.x = float(self.rect.x)
 
+	def update(self):
+		"""змістити прибульця праворуч""" 
+		self.x += self.settings.alien_speed * self.settings.fleet_direction
+		self.rect.x = self.x
+		self.check_edges()
+
+	def check_edges(self):
+		self.screen_rect = self.screen.get_rect()
+		if self.rect.right >= self.screen_rect.right or self.rect.left <= 0:
+			print(True)
+			return True

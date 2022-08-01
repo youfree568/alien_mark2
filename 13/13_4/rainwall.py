@@ -11,13 +11,9 @@ class Raindrop(Sprite):
 		self.screen = pygame.display.set_mode((600, 480))
 		pygame.display.set_caption('Raindrop')
 		self.bg_color = (240, 240, 240)
-
-
 		self.drops = pygame.sprite.Group()
-		self.screen_rect = self.screen.get_rect()
-		
+		self.screen_rect = self.screen.get_rect()		
 		self.drops = pygame.sprite.Group()
-
 		self._create_fleet()
 
 	def run(self):
@@ -25,13 +21,11 @@ class Raindrop(Sprite):
 		while True:
 			self.check_event()
 			self.screen.fill(self.bg_color)
-			self._create_fleet()
 			self.drops.draw(self.screen)
-
+			self.fall()
+			self.check_edge(self)
 			pygame.display.flip()
 
-	def le(self):
-		print(len(self.drops))
 
 	def check_event(self):
 		# перевірка на дію
@@ -57,19 +51,35 @@ class Raindrop(Sprite):
 		for row_number in range(row_numbers):			
 			for drop_number in range(number_drops):
 				drop = Drop(self)
+				drop_width, drop_height = drop.rect.size
 				drop.x = drop_width + drop_width * 2 * drop_number 
 				drop.rect.x = drop.x
 				drop.y = drop_height + drop_height * 2 * row_number
 				drop.rect.y = drop.y
 				self.drops.add(drop)
 
+				print(len(self.drops))
 
 
+	def fall(self):
+		"""каплі падають вниз"""
+		for drop in self.drops.sprites():
+			drop.y += 0.1
+			drop.rect.y = drop.y
+		
 
+	def check_edge(self, screen_rect):
+	
+		# for drope in self.drops.sprites():
+		for drope in self.drops.copy():	
+			if drope.rect.bottom >= self.screen_rect.bottom:
+				self.drops.remove(drope)
+				# self.drops.add(drope)
+		print(len(self.drops))
 
 if __name__=='__main__':
 	Raindrop().run()
-	Raindrop().le()
+
 
 
 	# def move_drop(self):

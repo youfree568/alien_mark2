@@ -96,6 +96,18 @@ class AlienInvasion:
 		self.bullets.update()
 		# видалити старукую
 		self._remove_bullet()
+		self._check_bullets_collisions()
+
+	def _check_bullets_collisions(self):
+		""" реакція на зіткнення кулі з прибульцем"""
+		# перевіряти чи куля перетнулась з прибульцем
+		# якщо так то видаляти прибульця і кулю
+		collision = pygame.sprite.groupcollide(self.bullets, self.aliens, 
+			True, True)
+		if not self.aliens:
+			# знищити наявні кулі та створити новий флот
+			self.bullets.empty()
+			self._create_fleet()
 
 	def _create_fleet(self):
 		"""створення флоту прибульців"""

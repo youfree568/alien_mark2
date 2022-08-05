@@ -153,6 +153,10 @@ class AlienInvasion:
 		"""змістити прибульців і змінити напрямок руху"""
 		self._check_fleet_edges()
 		self.aliens.update()
+		# перевірка зіткнень корабля і прибульця
+		if pygame.sprite.spritecollideany(self.ship, self.aliens):
+			print('Ship hit!!!')
+	
 
 if __name__ == '__main__':
 	# create copy of the game and start

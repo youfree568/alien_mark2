@@ -73,6 +73,11 @@ class Shut_right:
 		for bullet in self.bullets.copy():
 			if bullet.rect.right > self.screen_rect.right:
 				self.bullets.remove(bullet)
+		self._bullet_mario_collision()
+
+	def _bullet_mario_collision(self):
+		"""реакція на зіткнення кулі і маріо """
+		# remove all bullets and marios that were hit
 		collisions = pygame.sprite.groupcollide(self.bullets, self.marios,
 			True, True)
 		if not self.marios:

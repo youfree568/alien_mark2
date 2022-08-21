@@ -9,6 +9,7 @@ class Ship:
 		self.screen_rect = self.screen.get_rect()
 		# позиція корабля на екрані 
 		self.rect.midleft = self.screen_rect.midleft
+		self.y = float(self.rect.y)
 		# індикатори руху корабля
 		self.move_ship_up = False
 		self.move_ship_down = False
@@ -24,3 +25,7 @@ class Ship:
 
 	def blitme(self):
 		self.screen.blit(self.image, self.rect)
+
+	def center_ship(self):
+		self.rect.midleft = self.screen_rect.midleft
+		self.y = float(self.rect.y)

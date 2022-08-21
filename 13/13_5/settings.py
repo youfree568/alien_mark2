@@ -12,5 +12,6 @@ class Settings:
 		self.bullet_color = (60, 60, 60)
 		self.bullet_speed = 0.5
 		self.mario_speed = 0.1
-		self.fleet_drop_speed = 10
+		self.fleet_drop_speed = 30
 		self.fleet_direction = 1
+		self.ship_limit = 1

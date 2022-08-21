@@ -1,10 +1,13 @@
 import pygame
 import sys
 
+from time import sleep
+
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from mario import Mario
+from game_stats import GameStats
 
 class Shut_right:
 	def __init__(self):
@@ -17,19 +20,21 @@ class Shut_right:
 		self.screen_rect = self.screen.get_rect()
 		pygame.display.set_caption("SHIP SHUT RIGHT")
 		
+		self.stats = GameStats(self)
 		self.ship = Ship(self)		
 		self.bullets = pygame.sprite.Group()
 		self.marios = pygame.sprite.Group()
-
+		self.collis = pygame.sprite.Group()
 		self._create_fleet()
 
 	def run(self):
 		""" запуск відображення програми"""
 		while True:
 			self._check_events()
-			self.ship.update()
-			self._update_bullet()
-			self._update_marios()
+			if self.stats.game_active:
+				self.ship.update()
+				self._update_bullet()
+				self._update_marios()
 			self._update_screen()
 			
 	def _check_events(self):
@@ -80,15 +85,26 @@ class Shut_right:
 		# remove all bullets and marios that were hit
 		collisions = pygame.sprite.groupcollide(self.bullets, self.marios,
 			True, True)
+		self.collis.add(collisions)
+		# print(len(self.collis))
+		if len(self.collis) >= 1:
+			print('More than 100 marios hit.\nYou win!')
+		
+			self.stats.game_active = False
 		if not self.marios:
 			# remove bullet and create marios fleet
 			self.bullets.empty()
 			self._create_fleet()
-
+	
 	def _update_marios(self):
 		"""оновити позиції всіх маріо"""
 		self._check_fleet_edges()
 		self.marios.update()
+		# перевірити чи не зіткнулись маріо з кораблем
+		if pygame.sprite.spritecollideany(self.ship, self.marios):
+			self._ship_hit()
+
+		self._check_marios_left()
 
 	def _update_screen(self):
 		"""оновити зображення та перемкнутися на новий екран"""
@@ -141,7 +157,28 @@ class Shut_right:
 		for mario in self.marios.sprites():
 			mario.rect.x -= self.settings.fleet_drop_speed
 		self.settings.fleet_direction *= -1
-		print(self.settings.fleet_direction)
+
+	def _ship_hit(self):
+		"""reaction to ship hit"""
+		if self.stats.ships_left > 0:
+			self.stats.ships_left -= 1
+			# clear bullet and marios
+			self.bullets.empty()
+			self.marios.empty()
+			# create fleet and center ship
+			self._create_fleet()
+			self.ship.center_ship()
+			# timer to watch hit
+			sleep(0.5)
+		else:
+			self.stats.game_active = False
+
+	def _check_marios_left(self):
+		# check if mario has touched the edge of the screen
+		for mario in self.marios.sprites():
+			if mario.rect.left <= 0:
+				self._ship_hit()
+				break
 
 if __name__=='__main__':
 	Shut_right().run()

@@ -67,6 +67,7 @@ class AlienInvasion:
 		elif e.key == pygame.K_SPACE:
 			self._fire_bullet()	
 		elif e.key == pygame.K_p and not self.stats.game_active:
+			self.settings.initialization_dynamic_settings()
 			self._start_game()		
 		elif e.key == pygame.K_q:
 			sys.exit()
@@ -82,6 +83,7 @@ class AlienInvasion:
 		"""start game when user push 'PLAY' button"""
 		button_clicked = self.play_button.rect.collidepoint(mouse_pos)
 		if button_clicked and not self.stats.game_active:
+			self.settings.initialization_dynamic_settings()
 			self._start_game()
 
 	def _start_game(self):
@@ -140,6 +142,7 @@ class AlienInvasion:
 			# знищити наявні кулі та створити новий флот
 			self.bullets.empty()
 			self._create_fleet()
+			self.settings.increse_speed()
 
 	def _create_fleet(self):
 		"""створення флоту прибульців"""
